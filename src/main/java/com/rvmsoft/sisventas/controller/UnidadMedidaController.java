@@ -2,6 +2,8 @@ package com.rvmsoft.sisventas.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,9 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rvmsoft.sisventas.dto.UnidadMedidaDTO;
 import com.rvmsoft.sisventas.dto.request.UnidadMedidaDTORequest;
 import com.rvmsoft.sisventas.service.UnidadMedidaService;
+
+import lombok.extern.slf4j.Slf4j;
+
 import com.rvmsoft.sisventas.constant.SisVentasConstant;
 
 
+@Slf4j
 @RestController
 @RequestMapping(SisVentasConstant.RESOURCE_GENERIC)
 @CrossOrigin(SisVentasConstant.CLIENT_FRONTEND)
@@ -46,5 +52,10 @@ public class UnidadMedidaController {
 	@GetMapping(SisVentasConstant.RESOURCE_UNIDAD_MEDIDAS + SisVentasConstant.RESOURCE_UNIDAD_MEDIDA_KEY)
 	public List<UnidadMedidaDTO> findByKerword(@RequestParam String keyword) {
 		return this.unidadMedidaService.findByKerword(keyword);
+	}
+	
+	@GetMapping(SisVentasConstant.RESOURCE_UNIDAD_MEDIDAS + SisVentasConstant.RESOURCE_UNIDAD_MEDIDA+"/nombre")
+	public Page<UnidadMedidaDTO> findByNombre(@RequestParam String nombre, Pageable pageable){
+		return this.unidadMedidaService.findByNombre(nombre, pageable);
 	}
 }

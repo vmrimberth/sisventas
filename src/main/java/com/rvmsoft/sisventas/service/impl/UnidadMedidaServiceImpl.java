@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.rvmsoft.sisventas.dto.UnidadMedidaDTO;
@@ -63,6 +65,12 @@ public class UnidadMedidaServiceImpl implements UnidadMedidaService{
 	public UnidadMedidaDTO convertBeanToDto(UnidadMedida um) {
 	
 		return UnidadMedidaDTO.builder().id(um.getId()).nombre(um.getNombre()).build();
+	}
+
+	@Override
+	public Page<UnidadMedidaDTO> findByNombre(String nombre, Pageable pageable) {
+		Page<UnidadMedida> list = this.unidadMedidaRepository.findByNombre(nombre, pageable);
+		return list.map((bean)->convertBeanToDto(bean));
 	}
 	
 }

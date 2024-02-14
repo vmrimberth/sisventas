@@ -2,6 +2,9 @@ package com.rvmsoft.sisventas.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.rvmsoft.sisventas.dto.UnidadMedidaDTO;
 import com.rvmsoft.sisventas.dto.request.UnidadMedidaDTORequest;
 import com.rvmsoft.sisventas.model.UnidadMedida;
@@ -17,4 +20,6 @@ public interface UnidadMedidaService {
 	public List<UnidadMedidaDTO> findAll();
 	
 	public List<UnidadMedidaDTO> findByKerword(String kerword);
+	
+	public Page<UnidadMedidaDTO> findByNombre(String nombre, Pageable pageable);
 }
