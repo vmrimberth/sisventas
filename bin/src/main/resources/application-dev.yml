@@ -1,0 +1,20 @@
+server:
+  port: 9090
+  
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/dbventas?useSSL = false
+    username: postgres
+    password: ditta.0425
+    
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  data:
+    jdbc:
+      repositories:
+        enabled: false
+        
+      
