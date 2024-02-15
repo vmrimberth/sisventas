@@ -12,5 +12,8 @@ public class UnidadMedidaDTO implements Serializable{
 	private Long id;
 	private String nombre;
 	
-
+	public UnidadMedidaDTO(Long id, String nombre) {
+		this.id=id;
+		this.nombre=nombre;
+	}
 }

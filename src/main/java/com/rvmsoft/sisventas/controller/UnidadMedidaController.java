@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +45,11 @@ public class UnidadMedidaController {
 	public Long save(@RequestBody UnidadMedidaDTORequest dto) {
 		return this.unidadMedidaService.save(dto);
 	}
+	
+	/*@PostMapping(SisVentasConstant.RESOURCE_UNIDAD_MEDIDAS + SisVentasConstant.RESOURCE_UNIDAD_MEDIDA)
+	public ResponseEntity<UnidadMedidaDTO> save(@RequestBody UnidadMedidaDTORequest dto) {
+		return new ResponseEntity<UnidadMedidaDTO>(this.unidadMedidaService.saveSQL(dto), HttpStatus.CREATED);
+	}*/
 	
 	@GetMapping(SisVentasConstant.RESOURCE_UNIDAD_MEDIDAS + SisVentasConstant.RESOURCE_UNIDAD_MEDIDA)
 	public List<UnidadMedidaDTO> findAll(){

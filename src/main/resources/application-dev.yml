@@ -1,12 +1,14 @@
+# CONFIGURACION DEL PUERTO
 server:
   port: 9090
   
+# CONFIGURACION DEL DATASOURCE
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/dbventas?useSSL = false
     username: postgres
-    password: ditta.0425
+    password: saori.1222
     
   jpa:
     show-sql: true
@@ -16,5 +18,37 @@ spring:
     jdbc:
       repositories:
         enabled: false
-        
-      
+  
+  application:
+    name: '@project.artifactId@'
+  jmx:
+    default-domain: ${spring.application.name}
+    
+  output:
+    ansi:
+      enabled: detect
+  
+# CONFIGURACION DE LA DOCUMENTACION DE LAS APIS
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+  api-docs: 
+    enabled: true
+    path: /api-docs
+  packages-to-scan:
+  - com.rvmsoft.sisventas.controller
+  
+  # CONFIGURACION DE LOS LOG
+  logging:
+    level:
+      root: info
+    pattern:
+      console: "%d{yyyy-MM-dd HH:mm:ss} - [%thread] %-5level %logger{36} - %msg%n"
+      file: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" 
+    file:
+      name: log/${spring.application.name}.log
+      max-size:
+        negative: 10MB
+      total-size-cap:
+        negative: 100MB

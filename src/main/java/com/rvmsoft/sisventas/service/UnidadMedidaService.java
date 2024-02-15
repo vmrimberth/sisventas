@@ -13,6 +13,8 @@ public interface UnidadMedidaService {
 
 	public Long save(UnidadMedidaDTORequest dto);
 	
+	public UnidadMedida saveSQL(UnidadMedidaDTORequest dto);
+	
 	public UnidadMedida update(UnidadMedida unidadMedida, Long id);
 	
 	public UnidadMedidaDTO findById(Long id);

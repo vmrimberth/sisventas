@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.rvmsoft.sisventas.dto.UnidadMedidaDTO;
 import com.rvmsoft.sisventas.dto.request.UnidadMedidaDTORequest;
+import com.rvmsoft.sisventas.mapper.UnidadMedidaMapper;
 import com.rvmsoft.sisventas.model.UnidadMedida;
 import com.rvmsoft.sisventas.repository.UnidadMedidaRepository;
 import com.rvmsoft.sisventas.service.UnidadMedidaService;
@@ -17,10 +18,13 @@ import com.rvmsoft.sisventas.service.UnidadMedidaService;
 @Service
 public class UnidadMedidaServiceImpl implements UnidadMedidaService{
 
-	private UnidadMedidaRepository unidadMedidaRepository;
+	private final UnidadMedidaRepository unidadMedidaRepository;
+	private final UnidadMedidaMapper unidadMedidaMapper;
 	
-	public UnidadMedidaServiceImpl(UnidadMedidaRepository unidadMedidaRepository) {
+	
+	public UnidadMedidaServiceImpl(UnidadMedidaRepository unidadMedidaRepository, UnidadMedidaMapper unidadMedidaMapper) {
 		this.unidadMedidaRepository = unidadMedidaRepository;
+		this.unidadMedidaMapper = unidadMedidaMapper;
 	}
 
 	@Override
@@ -31,6 +35,14 @@ public class UnidadMedidaServiceImpl implements UnidadMedidaService{
 		return this.unidadMedidaRepository.save(unidadMedida).getId();
 	}
 
+	@Override
+	public UnidadMedida saveSQL(UnidadMedidaDTORequest dto) {
+		UnidadMedida unidadMedida = new UnidadMedida();
+		unidadMedida.setNombre(dto.getNombre());
+		unidadMedida.setAbreviacion(dto.getAbreviacion());
+		return this.unidadMedidaRepository.save(unidadMedida);
+	}
+	
 	@Override
 	public UnidadMedida update(UnidadMedida unidadMedida, Long id) {
 		UnidadMedida bean = this.unidadMedidaRepository.findById(id).get();
@@ -58,19 +70,23 @@ public class UnidadMedidaServiceImpl implements UnidadMedidaService{
 	@Override
 	public List<UnidadMedidaDTO> findByKerword(String kerword) {
 		List<UnidadMedida> list = this.unidadMedidaRepository.findByKerwordSQL(kerword);
-		
 		return list.stream().map((bean)->convertBeanToDto(bean)).collect(Collectors.toList());
 	}
 	
 	public UnidadMedidaDTO convertBeanToDto(UnidadMedida um) {
-	
 		return UnidadMedidaDTO.builder().id(um.getId()).nombre(um.getNombre()).build();
 	}
 
-	@Override
+	/*@Override
 	public Page<UnidadMedidaDTO> findByNombre(String nombre, Pageable pageable) {
 		Page<UnidadMedida> list = this.unidadMedidaRepository.findByNombre(nombre, pageable);
 		return list.map((bean)->convertBeanToDto(bean));
+	}*/
+	
+	@Override
+	public Page<UnidadMedidaDTO> findByNombre(String nombre, Pageable pageable) {
+		Page<UnidadMedida> list = this.unidadMedidaRepository.findByNombre(nombre, pageable);
+		return list.map((bean)->unidadMedidaMapper.toDto(bean));
 	}
 	
 }
