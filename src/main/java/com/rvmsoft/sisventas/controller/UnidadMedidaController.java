@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rvmsoft.sisventas.dto.PageableDTO;
 import com.rvmsoft.sisventas.dto.UnidadMedidaDTO;
 import com.rvmsoft.sisventas.dto.request.UnidadMedidaDTORequest;
 import com.rvmsoft.sisventas.service.UnidadMedidaService;
+import com.rvmsoft.sisventas.util.SisVentasUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,10 +30,13 @@ import com.rvmsoft.sisventas.constant.SisVentasConstant;
 @CrossOrigin(SisVentasConstant.CLIENT_FRONTEND)
 public class UnidadMedidaController {
 
-	private UnidadMedidaService unidadMedidaService;
+	private final UnidadMedidaService unidadMedidaService;
+	
+	private final SisVentasUtil util;
 
-	public UnidadMedidaController(UnidadMedidaService unidadMedidaService) {
+	public UnidadMedidaController(UnidadMedidaService unidadMedidaService, SisVentasUtil util) {
 		this.unidadMedidaService = unidadMedidaService;
+		this.util = util;
 	}
 	
 	@PostMapping(SisVentasConstant.RESOURCE_UNIDAD_MEDIDAS + SisVentasConstant.RESOURCE_UNIDAD_MEDIDA)
@@ -54,8 +59,14 @@ public class UnidadMedidaController {
 		return this.unidadMedidaService.findByKerword(keyword);
 	}
 	
-	@GetMapping(SisVentasConstant.RESOURCE_UNIDAD_MEDIDAS + SisVentasConstant.RESOURCE_UNIDAD_MEDIDA+"/nombre")
+	/*@GetMapping(SisVentasConstant.RESOURCE_UNIDAD_MEDIDAS + SisVentasConstant.RESOURCE_UNIDAD_MEDIDA+"/nombre")
 	public Page<UnidadMedidaDTO> findByNombre(@RequestParam String nombre, Pageable pageable){
 		return this.unidadMedidaService.findByNombre(nombre, pageable);
+	}*/
+	
+	@GetMapping(SisVentasConstant.RESOURCE_UNIDAD_MEDIDAS + SisVentasConstant.RESOURCE_UNIDAD_MEDIDA+"/nombre")
+	public Page<UnidadMedidaDTO> findByNombre(@RequestParam String nombre, PageableDTO pageable){
+		log.info("crear UnidadMedidaController -> {} " + pageable);
+		return this.unidadMedidaService.findByNombre(nombre, util.getPageable(pageable));
 	}
 }
