@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.rvmsoft.sisventas.dto.UnidadMedidaDTO;
 import com.rvmsoft.sisventas.dto.request.UnidadMedidaDTORequest;
+import com.rvmsoft.sisventas.errorhandler.EntityNotFoundException;
 import com.rvmsoft.sisventas.mapper.UnidadMedidaMapper;
 import com.rvmsoft.sisventas.model.UnidadMedida;
 import com.rvmsoft.sisventas.repository.UnidadMedidaRepository;
@@ -53,7 +54,8 @@ public class UnidadMedidaServiceImpl implements UnidadMedidaService{
 
 	@Override
 	public UnidadMedidaDTO findById(Long id) {
-		UnidadMedida unidadMedida = this.unidadMedidaRepository.findById(id).get();
+		UnidadMedida unidadMedida = this.unidadMedidaRepository.findById(id)
+				.orElseThrow(()->new EntityNotFoundException(String.format("La unidad de medida con id %s no exite", id.toString())));
 		return UnidadMedidaDTO.builder().id(unidadMedida.getId()).nombre(unidadMedida.getNombre()).build();
 	}
 
