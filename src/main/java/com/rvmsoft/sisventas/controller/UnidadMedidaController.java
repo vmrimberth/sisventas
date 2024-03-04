@@ -2,6 +2,8 @@ package com.rvmsoft.sisventas.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -42,7 +44,7 @@ public class UnidadMedidaController {
 	}
 	
 	@PostMapping(SisVentasConstant.RESOURCE_UNIDAD_MEDIDAS + SisVentasConstant.RESOURCE_UNIDAD_MEDIDA)
-	public Long save(@RequestBody UnidadMedidaDTORequest dto) {
+	public Long save(@Valid @RequestBody UnidadMedidaDTORequest dto) {
 		return this.unidadMedidaService.save(dto);
 	}
 	
